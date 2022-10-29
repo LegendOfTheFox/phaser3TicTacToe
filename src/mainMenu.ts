@@ -10,6 +10,6 @@ export default class MainMenu extends Phaser.Scene {
 
     setTimeout(() => {
       this.scene.start('ticTacToe');
-    }, 6000);
+    }, 2000);
   }
 }

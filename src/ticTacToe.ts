@@ -18,8 +18,6 @@ export default class TicTacToe extends Phaser.Scene {
     this.tileHeight = 64;
     this.currentPlayerTurn = 1;
 
-    //this.onClick = this.onClick.bind(this);
-
     this.updateGameState = this.updateGameState.bind(this);
 
     this.gameBoard = [
@@ -93,12 +91,6 @@ export default class TicTacToe extends Phaser.Scene {
   }
 
   onClick(e: any) {
-    //console.log('test', this['position2']);
-    //const positionToUpdate = this['position2'];
-
-    //this.gameBoard[this['position2'].x][this['position2'].y] = 2;
-    //console.log(this.gameBoard, this);
-
     let image = this;
     console.log('image?', image, image['name']);
 
@@ -106,8 +98,6 @@ export default class TicTacToe extends Phaser.Scene {
     let updateGameState = image['getData']('updateGameState');
 
     console.log('tilePosition that was clicked', tilePosition);
-
-    //image['setTexture']('x');
 
     updateGameState(tilePosition);
   }
@@ -117,16 +107,69 @@ export default class TicTacToe extends Phaser.Scene {
   }
 
   updateGameState(tilePosition) {
-    console.log('updateGameState', this.gameBoard, tilePosition);
+    const tileClicked = this.gameBoard[tilePosition.x][tilePosition.y];
 
-    this.gameBoard[tilePosition.x][tilePosition.y] =
-      this.getCurrentPlayerTurn();
+    if (!this.checkIfTileIsValid(tileClicked)) {
+      console.warn('tile is invalid');
+      return;
+    }
 
-    console.log('boardTileImages', this.boardTileImages);
-    //let image = this.boardTileImages[tilePosition.x][tilePosition.y];
-    //image['setTexture']('x');
+    const currentPlayer = this.getCurrentPlayerTurn();
 
-    this.toggleCurrentPlayerTurn();
+    this.gameBoard[tilePosition.x][tilePosition.y] = currentPlayer;
+
+    let image = this.boardTileImages[tilePosition.x][tilePosition.y];
+    image['setTexture'](this.getSquareImage(currentPlayer));
+
+    const currentPlayerWon = this.checkIfPlayerWon(currentPlayer);
+    console.log('curentPlayerWon?', currentPlayerWon);
+    if (currentPlayerWon) {
+      console.log('Player ' + currentPlayer + ' won!, resetting board');
+    } else {
+      this.toggleCurrentPlayerTurn();
+    }
+  }
+
+  checkIfTileIsValid(tileValue) {
+    if (tileValue == 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  checkIfPlayerWon(currentPlayer) {
+    let result = false;
+    // check rows
+    for (let i = 0; i < 3; i++) {
+      if (
+        this.gameBoard[i][0] == currentPlayer &&
+        this.gameBoard[i][1] == currentPlayer &&
+        this.gameBoard[i][2] == currentPlayer
+      ) {
+        result = true;
+      }
+    }
+    // check columns
+    for (let i = 0; i < 3; i++) {
+      if (
+        this.gameBoard[0][i] == currentPlayer &&
+        this.gameBoard[1][i] == currentPlayer &&
+        this.gameBoard[2][i] == currentPlayer
+      ) {
+        result = true;
+      }
+    }
+    // check diagonals
+    if (
+      this.gameBoard[0][0] == currentPlayer &&
+      this.gameBoard[1][1] == currentPlayer &&
+      this.gameBoard[2][2] == currentPlayer
+    ) {
+      result = true;
+    }
+
+    return result;
   }
 
   updateBoardPosition() {
