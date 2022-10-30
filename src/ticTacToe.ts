@@ -236,12 +236,13 @@ export default class TicTacToe extends Phaser.Scene {
     }
   }
 
-  newGame(): void {
+  async newGame(): Promise<void> {
     this.setGameState(GameState.END);
-    setTimeout(() => {
-      this.resetBoard();
-      this.setGameState(GameState.PLAYING);
-    }, 2000);
+
+    await new Promise((r) => setTimeout(r, 2000));
+
+    this.setGameState(GameState.PLAYING);
+    this.resetBoard();
   }
 
   checkIfGameIsADraw(): boolean {

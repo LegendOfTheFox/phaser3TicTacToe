@@ -39,6 +39,18 @@ const drawGameBoard = [
   [2, 2, 1],
 ];
 
+const gameInProgress = [
+  [2, 2, 1],
+  [1, 0, 2],
+  [2, 2, 0],
+];
+
+const emptyGameBoard = [
+  [0, 0, 0],
+  [0, 0, 0],
+  [0, 0, 0],
+];
+
 beforeAll(() => {
   newGame = new ticTacToe();
 });
@@ -206,6 +218,22 @@ describe('testing Tic Tac Toe', () => {
     expect(wonGamePlayer2).toBe(false);
   });
 
+  test('returns true if the game is a draw', () => {
+    newGame.gameBoard = drawGameBoard;
+
+    const isDraw = newGame.checkIfGameIsADraw();
+
+    expect(isDraw).toBe(true);
+  });
+
+  test('returns false if the game isnt over', () => {
+    newGame.gameBoard = gameInProgress;
+
+    const isDraw = newGame.checkIfGameIsADraw();
+
+    expect(isDraw).toBe(false);
+  });
+
   test('returns the default if no player is given', () => {
     const imageString = newGame.getSquareImage(5);
     expect(imageString).toBe('blackBorderSquare');
@@ -219,5 +247,11 @@ describe('testing Tic Tac Toe', () => {
   test('returns the o for player 2', () => {
     const imageString = newGame.getSquareImage(2);
     expect(imageString).toBe('o');
+  });
+
+  test('a New Game completely resets the game board', async () => {
+    newGame.gameBoard = gameInProgress;
+    await newGame.newGame();
+    expect(newGame.gameBoard).toStrictEqual(emptyGameBoard);
   });
 });
