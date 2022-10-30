@@ -11,13 +11,14 @@ interface TilePosition {
 }
 
 export default class TicTacToe extends Phaser.Scene {
+  [x: string]: any;
   boardOffsetX: number;
   boardOffsetY: number;
   tileWidth: number;
   tileHeight: number;
   currentPlayerTurn: number;
   gameBoard: number[][];
-  boardTileImages: {};
+  boardTileImages: [any, any, any][];
   score: { player1: number; player2: number };
   playerScoreImage: Phaser.GameObjects.Text[];
   gameState: GameState;
@@ -35,6 +36,7 @@ export default class TicTacToe extends Phaser.Scene {
       player1: 0,
       player2: 0,
     };
+    this.playerScoreImage = [];
 
     this.testParticle = null;
 
@@ -138,12 +140,12 @@ export default class TicTacToe extends Phaser.Scene {
     }
   }
 
-  setTileData(image, position: TilePosition) {
+  setTileData(image: any, position: TilePosition) {
     image.setData('boardPosition', position);
     image.setData('updateGameState', this.updateGameState);
   }
 
-  setTileImage(image, tilePosition: TilePosition): void {
+  setTileImage(image: any, tilePosition: TilePosition): void {
     this.boardTileImages[tilePosition.x][tilePosition.y] = image;
   }
 
@@ -151,7 +153,7 @@ export default class TicTacToe extends Phaser.Scene {
     let image = this;
     console.log('147 image?', image);
 
-    const tilePosition = image['getData']('boardPosition');
+    const tilePosition = image.getData('boardPosition');
     const updateGameState: Function = image['getData']('updateGameState');
 
     const tileScreenPosition = { x: image['x'], y: image['y'] };
@@ -159,10 +161,14 @@ export default class TicTacToe extends Phaser.Scene {
     updateGameState(tilePosition, tileScreenPosition);
   }
 
-  updateGameState(tilePosition: TilePosition, tileScreenPosition): void {
+  updateGameState(
+    tilePosition: TilePosition,
+    tileScreenPosition: { x: any; y: any }
+  ): void {
     if (this.getGameState() == GameState.END) {
       return;
     }
+    console.log('test222');
 
     this.testParticle.createEmitter({
       alpha: { start: 1, end: 0 },
@@ -227,16 +233,16 @@ export default class TicTacToe extends Phaser.Scene {
     return true;
   }
 
-  updateTile(tilePosition, tileValue: number): void {
+  updateTile(tilePosition: TilePosition, tileValue: number): void {
     this.updateTileValue(tilePosition, tileValue);
     this.updateTileImage(tilePosition, tileValue);
   }
 
-  updateTileValue(tilePosition, tileValue: number): void {
+  updateTileValue(tilePosition: TilePosition, tileValue: number): void {
     this.gameBoard[tilePosition.x][tilePosition.y] = tileValue;
   }
 
-  updateTileImage(tilePosition, tileValue: number): void {
+  updateTileImage(tilePosition: TilePosition, tileValue: number): void {
     const image = this.boardTileImages[tilePosition.x][tilePosition.y];
     image['setTexture'](this.getSquareImage(tileValue));
   }
