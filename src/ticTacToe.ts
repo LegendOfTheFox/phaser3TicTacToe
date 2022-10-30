@@ -101,9 +101,14 @@ export default class TicTacToe extends Phaser.Scene {
   }
 
   createScores(): void {
+    const textConfig = {
+      fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+      fontSize: '32px',
+    };
+
     this.playerScoreImage = [
-      this.add.text(10, 10, 'Player 1: ' + this.score.player1),
-      this.add.text(10, 30, 'Player 2: ' + this.score.player2),
+      this.add.text(10, 10, 'Player 1: ' + this.score.player1, textConfig),
+      this.add.text(600, 10, 'Player 2: ' + this.score.player2, textConfig),
     ];
   }
 
@@ -149,17 +154,15 @@ export default class TicTacToe extends Phaser.Scene {
     const tilePosition = image['getData']('boardPosition');
     const updateGameState: Function = image['getData']('updateGameState');
 
-    const test = { x: image['x'], y: image['y'] };
-    //let test;
+    const tileScreenPosition = { x: image['x'], y: image['y'] };
 
-    updateGameState(tilePosition, test);
+    updateGameState(tilePosition, tileScreenPosition);
   }
 
-  updateGameState(tilePosition: TilePosition, test): void {
+  updateGameState(tilePosition: TilePosition, tileScreenPosition): void {
     if (this.getGameState() == GameState.END) {
       return;
     }
-    console.log('TEST???');
 
     this.testParticle.createEmitter({
       alpha: { start: 1, end: 0 },
@@ -173,8 +176,8 @@ export default class TicTacToe extends Phaser.Scene {
       //blendMode: 'NORMAL',
       frequency: 50,
       maxParticles: 10,
-      x: test.x,
-      y: test.y,
+      x: tileScreenPosition.x,
+      y: tileScreenPosition.y,
     });
 
     this.testParticle.setDepth(2);
@@ -190,19 +193,38 @@ export default class TicTacToe extends Phaser.Scene {
     this.updateTile(tilePosition, currentPlayer);
 
     const currentPlayerWon = this.checkIfPlayerWon(currentPlayer);
+    const gameIsADraw = this.checkIfGameIsADraw();
 
     if (currentPlayerWon) {
-      console.log('Player ' + currentPlayer + ' won!, resetting board');
+      console.log('Player ' + currentPlayer + ' won!');
       this.updateGamesWon(currentPlayer);
-
-      this.setGameState(GameState.END);
-      setTimeout(() => {
-        this.resetBoard();
-        this.setGameState(GameState.PLAYING);
-      }, 2000);
+      this.newGame();
+    } else if (gameIsADraw) {
+      console.log('Draw');
+      this.newGame();
     } else {
       this.toggleCurrentPlayerTurn();
     }
+  }
+
+  newGame(): void {
+    this.setGameState(GameState.END);
+    setTimeout(() => {
+      this.resetBoard();
+      this.setGameState(GameState.PLAYING);
+    }, 2000);
+  }
+
+  checkIfGameIsADraw(): boolean {
+    for (let i = 0; i < this.gameBoard.length; i++) {
+      for (let s = 0; s < this.gameBoard[i].length; s++) {
+        if (this.gameBoard[i][s] == 0) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   updateTile(tilePosition, tileValue: number): void {
