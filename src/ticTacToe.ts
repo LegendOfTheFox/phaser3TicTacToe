@@ -271,9 +271,14 @@ export default class TicTacToe extends Phaser.Scene {
   }
 
   updateGamesWon(currentPlayer: number): void {
+    if (currentPlayer !== 1 && currentPlayer !== 2) {
+      console.warn('invalid player');
+      return;
+    }
+
     if (currentPlayer == 1) {
       this.score.player1++;
-    } else {
+    } else if (currentPlayer == 2) {
       this.score.player2++;
     }
   }
@@ -294,10 +299,14 @@ export default class TicTacToe extends Phaser.Scene {
   resetBoardTileImages(): void {
     for (let i = 0; i < 3; i++) {
       for (let s = 0; s < 3; s++) {
-        let image = this.boardTileImages[i][s];
-        image['setTexture']('blackBorderSquare');
+        const image = this.boardTileImages[i][s];
+        this.setDefaultTileImage(image);
       }
     }
+  }
+
+  setDefaultTileImage(image: any) {
+    image['setTexture']('blackBorderSquare');
   }
 
   checkIfTileIsValid(tileValue: number): boolean {
@@ -342,14 +351,15 @@ export default class TicTacToe extends Phaser.Scene {
     return result;
   }
 
-  getSquareImage(currentValue: number) {
+  getSquareImage(currentValue: number): string {
+    let imageString = 'blackBorderSquare';
     if (currentValue == 2) {
-      return 'o';
+      imageString = 'o';
     } else if (currentValue == 1) {
-      return 'x';
-    } else {
-      return 'blackBorderSquare';
+      imageString = 'x';
     }
+
+    return imageString;
   }
 
   update(time: number, delta: number): void {
