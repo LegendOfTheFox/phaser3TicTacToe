@@ -108,10 +108,35 @@ export default class TicTacToe extends Phaser.Scene {
       fontSize: '32px',
     };
 
+    this.setPlayerScoreImage(textConfig);
+  }
+
+  setPlayerScoreImage(textConfig: { fontFamily: string; fontSize: string }) {
     this.playerScoreImage = [
-      this.add.text(10, 10, 'Player 1: ' + this.score.player1, textConfig),
-      this.add.text(600, 10, 'Player 2: ' + this.score.player2, textConfig),
+      this.createScoreImage(
+        { x: 10, y: 10 },
+        'Player 1: ' + this.score.player1,
+        textConfig
+      ),
+      this.createScoreImage(
+        { x: 600, y: 10 },
+        'Player 2: ' + this.score.player2,
+        textConfig
+      ),
     ];
+  }
+
+  createScoreImage(
+    coordinates: { x: any; y: any },
+    playerString: string | string[],
+    textConfig: Phaser.Types.GameObjects.Text.TextStyle | undefined
+  ) {
+    return this.add.text(
+      coordinates.x,
+      coordinates.y,
+      playerString,
+      textConfig
+    );
   }
 
   drawScores(): void {
@@ -150,8 +175,7 @@ export default class TicTacToe extends Phaser.Scene {
   }
 
   onClick(e: any) {
-    let image = this;
-    console.log('147 image?', image);
+    const image = this;
 
     const tilePosition = image.getData('boardPosition');
     const updateGameState: Function = image['getData']('updateGameState');
@@ -168,7 +192,6 @@ export default class TicTacToe extends Phaser.Scene {
     if (this.getGameState() == GameState.END) {
       return;
     }
-    console.log('test222');
 
     this.testParticle.createEmitter({
       alpha: { start: 1, end: 0 },
@@ -256,12 +279,19 @@ export default class TicTacToe extends Phaser.Scene {
   }
 
   resetBoard(): void {
+    this.setBoardDefaults();
+    this.resetBoardTileImages();
+  }
+
+  setBoardDefaults(): void {
     this.gameBoard = [
       [0, 0, 0],
       [0, 0, 0],
       [0, 0, 0],
     ];
+  }
 
+  resetBoardTileImages(): void {
     for (let i = 0; i < 3; i++) {
       for (let s = 0; s < 3; s++) {
         let image = this.boardTileImages[i][s];

@@ -7,7 +7,7 @@
     "dev": "rollup --config rollup.config.dev.js",
     "build": "rollup --config rollup.config.dist.js",
     "watch": "rollup --watch --config rollup.config.dev.js",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
