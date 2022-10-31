@@ -2,6 +2,8 @@
 
 Basic implementation of Tic Tac Toe utilizing Phaser 3 and TypeScript 
 
+![image](https://user-images.githubusercontent.com/8893098/198914348-d7d28d18-6447-4440-a23f-52c9fdfa28dc.png)
+
 ![image](https://user-images.githubusercontent.com/8893098/198913198-22694e22-92b7-497f-9637-d1191089f1c7.png)
 
 ## Features
