@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1667173528818" clover="3.2.0">
-  <project timestamp="1667173528819" name="All files">
+<coverage generated="1667173727861" clover="3.2.0">
+  <project timestamp="1667173727861" name="All files">
     <metrics statements="128" coveredstatements="66" conditionals="33" coveredconditionals="27" methods="32" coveredmethods="16" elements="193" coveredelements="109" complexity="0" loc="128" ncloc="128" packages="1" files="1" classes="1"/>
     <file name="ticTacToe.ts" path="D:\Programming\Phaser\phaser3TicTacToe\src\ticTacToe.ts">
       <metrics statements="128" coveredstatements="66" conditionals="33" coveredconditionals="27" methods="32" coveredmethods="16"/>

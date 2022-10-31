@@ -27,7 +27,7 @@ export default class TicTacToe extends Phaser.Scene {
   constructor() {
     super('ticTacToe');
 
-    this.boardOffsetX = 250;
+    this.boardOffsetX = 280;
     this.boardOffsetY = 175;
     this.tileWidth = 64;
     this.tileHeight = 64;
@@ -66,25 +66,18 @@ export default class TicTacToe extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('logo', 'assets/phaser3-logo.png');
-    this.load.image('libs', 'assets/libs.png');
+    this.load.image('background', 'assets/gameBoard.png');
 
-    this.load.image('emptySquare', 'assets/1bitblock0.png');
-    this.load.image('blackBorderSquare', 'assets/1bitblock2.png');
-
-    this.load.image('x', 'assets/1bitblock1.png');
-    this.load.image('o', 'assets/1bitblock3.png');
-
-    this.load.glsl('bundle', 'assets/plasma-bundle.glsl.js');
-    this.load.glsl('stars', 'assets/starfields.glsl.js');
+    this.load.image('blackBorderSquare', 'assets/EmptyTile.png');
+    this.load.image('x', 'assets/FoxTile.png');
+    this.load.image('o', 'assets/CatTile.png');
 
     this.load.image('fire', 'assets/muzzleflash3.png');
   }
 
   create(): void {
-    this.add.shader('RGB Shift Field', 0, 0, 800, 600).setOrigin(0);
-
     this.testParticle = this.add.particles('fire');
+    this.add.image(0, 0, 'background').setOrigin(0);
 
     this.drawBoard();
     this.createScores();
