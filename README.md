@@ -13,6 +13,13 @@ Basic implementation of Tic Tac Toe utilizing Phaser 3 and TypeScript
 - Basic Testing via Jest
 - Basic menu and usage of multiple scenes
 
+## Phaser 3 Features
+- text
+- images
+- particles
+- onClick handlers
+- setting game context data within an image
+
 ## Available Commands
 
 | Command | Description |
