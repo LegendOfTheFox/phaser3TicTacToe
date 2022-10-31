@@ -17,9 +17,11 @@ export default class MainMenu extends Phaser.Scene {
   preload() {
     this.load.image('glass-panel', 'assets/glassPanel.png');
     this.load.image('cursor-hand', 'assets/cursor_hand.png');
+    this.load.image('background', 'assets/BasicMainMenuScene.png');
   }
 
   create() {
+    this.add.image(0, 0, 'background').setOrigin(0);
     const { width, height } = this.scale;
 
     // Play button
@@ -27,7 +29,7 @@ export default class MainMenu extends Phaser.Scene {
       .image(width * 0.5, height * 0.6, 'glass-panel')
       .setDisplaySize(150, 50);
 
-    this.add.text(playButton.x, playButton.y, 'Play').setOrigin(0.5);
+    this.add.text(playButton.x, playButton.y, 'Tic Tac Toe').setOrigin(0.5);
 
     // Settings button
     const settingsButton = this.add
