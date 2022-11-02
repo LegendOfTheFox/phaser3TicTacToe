@@ -32,7 +32,7 @@ export default class MainMenu extends Phaser.Scene {
     this.add.text(playButton.x, playButton.y, 'Tic Tac Toe').setOrigin(0.5);
 
     // Settings button
-    const settingsButton = this.add
+    const rpgBattleSystemButton = this.add
       .image(
         playButton.x,
         playButton.y + playButton.displayHeight + 10,
@@ -41,14 +41,14 @@ export default class MainMenu extends Phaser.Scene {
       .setDisplaySize(150, 50);
 
     this.add
-      .text(settingsButton.x, settingsButton.y, 'Settings')
+      .text(rpgBattleSystemButton.x, rpgBattleSystemButton.y, 'Battle System')
       .setOrigin(0.5);
 
     // Credits button
     const creditsButton = this.add
       .image(
-        settingsButton.x,
-        settingsButton.y + settingsButton.displayHeight + 10,
+        rpgBattleSystemButton.x,
+        rpgBattleSystemButton.y + rpgBattleSystemButton.displayHeight + 10,
         'glass-panel'
       )
       .setDisplaySize(150, 50);
@@ -56,7 +56,7 @@ export default class MainMenu extends Phaser.Scene {
     this.add.text(creditsButton.x, creditsButton.y, 'Credits').setOrigin(0.5);
 
     this.buttons.push(playButton);
-    this.buttons.push(settingsButton);
+    this.buttons.push(rpgBattleSystemButton);
     this.buttons.push(creditsButton);
 
     this.buttonSelector = this.add.image(0, 0, 'cursor-hand');
@@ -68,8 +68,9 @@ export default class MainMenu extends Phaser.Scene {
       this.scene.start('ticTacToe');
     });
 
-    settingsButton.on('selected', () => {
-      console.log('settings');
+    rpgBattleSystemButton.on('selected', () => {
+      console.log('battle system');
+      this.scene.start('rpgBattleSystem');
     });
 
     creditsButton.on('selected', () => {
